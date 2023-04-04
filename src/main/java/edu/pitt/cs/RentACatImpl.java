@@ -18,7 +18,22 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean returnCat(int id) {
-		// TODO
+		// null / zero-element check
+		if (cats == null || cats.size() == 0) {
+			return false;
+		}
+
+		// Loop through every cat in the cat list
+		for (Cat c : cats) {
+			if (c.getId() == id) {
+				if (c.getRented() == true) {
+					c.returnCat();
+					return true;
+				}
+				return false;
+			}
+		}
+
 		return false;
 	}
 
@@ -33,7 +48,21 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean rentCat(int id) {
-		// TODO
+		// null / zero-element check
+		if (cats == null || cats.size() == 0) {
+			return false;
+		}
+
+		// Loop through every cat in the cat list
+		for (Cat c : cats) {
+			if (c.getId() == id) {
+				if (c.getRented() == false) {
+					c.rentCat();
+					return true;
+				}
+			}
+		}
+
 		return false;
 	}
 
@@ -49,7 +78,13 @@ public class RentACatImpl implements RentACat {
 
 	public String listCats() {
 		// TODO
-		return "WRITE CODE FOR THIS";
+		String str = "";
+		for (Cat c: cats) {
+			if (c.getRented() == false) {
+				str += c.toString() + "\n";
+			}
+		}
+		return str;
 	}
 
 	/**
@@ -62,7 +97,17 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean catExists(int id) {
-		// TODO
+		// null / zero-element check
+		if (cats == null || cats.size() == 0) {
+			return false;
+		}
+
+		for (Cat c: cats) {
+			if (c.getId() == id) {
+				return true;
+			}
+		}
+		// No cat of this ID exists, thus it is not available or this cat exists, but has already been rented
 		return false;
 	}
 
@@ -82,11 +127,8 @@ public class RentACatImpl implements RentACat {
 			return false;
 		}
 		Cat c = getCat(id);
-		if (c == null) {
-			// No cat of this ID exists, thus it is not available
-			return false;
-		} else if (c.getRented()) {
-			// This cat exists, but has already been rented
+		if (c == null || c.getRented()) {
+			// No cat of this ID exists, thus it is not available or this cat exists, but has already been rented
 			return false;
 		}
 
